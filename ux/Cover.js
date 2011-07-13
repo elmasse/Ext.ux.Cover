@@ -129,7 +129,7 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 	
 	setBoundaries: function(itemBox){
 		var w = itemBox.width;
-		this.gap = w / 3;
+		this.gap = w / 4;
 		this.threshold = this.gap / 2; 
 	},
 	
