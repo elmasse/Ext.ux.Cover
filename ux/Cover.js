@@ -136,8 +136,8 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 	setItemTransformation: function(item, idx, offset){
 		var x = idx * this.gap,
 			ix = x + offset.x,
-			zi = 999,
-			dist,
+			// zi = 999,
+			// dist,
 			transf = "";//{rotate: [0,0,0], translate:[0,0,0]};
 		
 		if(ix < this.threshold && ix >= - this.threshold){
@@ -155,9 +155,9 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 		}	
 		// Ext.Element.cssTransform(item,transf);
 		item.dom.style.webkitTransform = transf;
-		dist = idx - this.activeItem;
 		//chrome needs to have zindex set in order to display correctly 
-		item.dom.style.zIndex = zi - (dist > 0 ? dist:-dist);
+		// dist = idx - this.activeItem;
+		// item.dom.style.zIndex = zi - (dist > 0 ? dist:-dist);
 	},
 	
 	refresh: function(){
