@@ -1,0 +1,47 @@
+@import 'sencha-touch/default/global';
+
+/**
+ * @global {color} [$cover-bg-color=#333]
+ * Background-color for cover.
+ *
+ * @class Ext.ux.Cover
+ * @xtype cover
+ */
+$cover-bg-color: #333 !default;
+
+
+@mixin ux-cover {
+	.ux-cover {
+		background-color: $cover-bg-color;
+	    position: relative;
+		@include display-box;
+		overflow: hidden;
+		-webkit-perspective: 1000;
+		-webkit-transform-style: preserve-3d;
+		-webkit-touch-callout: none;
+	    -webkit-text-size-adjust: none;
+	    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+		.ux-cover-scroller {
+			-webkit-transform-style: preserve-3d;
+			-webkit-transition-property: -webkit-transform;
+		    -webkit-transition-duration: 0.4s;
+		    -webkit-transition-timing-function: ease-out;
+			
+			.ux-cover-item-wrap {
+				-webkit-transform-style: preserve-3d;
+			    -webkit-transition-property: -webkit-transform;
+			    -webkit-transition-duration: 0.4s;
+			    -webkit-transition-timing-function: ease-out;
+				background-color: $cover-bg-color;
+
+				position: absolute;
+				
+				.ux-cover-item {
+					-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
+				}
+			}
+		}
+	
+	}
+}
