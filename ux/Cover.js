@@ -11,7 +11,6 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 	itemBaseCls: 'ux-cover-item',
 	activeItem: 0,
 	
-	delta: 40,
 	angle: 70,
 	
 	initComponent: function(){
@@ -129,8 +128,9 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 	
 	setBoundaries: function(itemBox){
 		var w = itemBox.width;
-		this.gap = w / 4;
+		this.gap = w / 3;
 		this.threshold = this.gap / 2; 
+		this.delta = w * 0.4;
 	},
 	
 	setItemTransformation: function(item, idx, offset){
