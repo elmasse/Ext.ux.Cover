@@ -67,10 +67,6 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 			activeItem,
 			delta = {x: e.previousDeltaX, y: e.previousDeltaY};
 
-		console.log(e);	
-		// vel = Math.abs(e.deltaX/e.deltaTime);
-		// e.deltaX = (e.deltaX * vel) / 2;
-		
 		//slow down on border conditions
 		activeItem = this.getActiveItem();
 		if((activeItem === 0 && e.deltaX > 0) || (activeItem === this.all.getCount() - 1 && e.deltaX < 0)){
