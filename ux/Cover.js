@@ -65,18 +65,19 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 		var curr = this.getOffset(),
 			offset,
 			activeItem,
-			vel;
-			
-		vel = Math.abs(e.deltaX/e.deltaTime);
-		e.deltaX *= (vel / 2);
+			delta = {x: e.previousDeltaX, y: e.previousDeltaY};
+
+		console.log(e);	
+		// vel = Math.abs(e.deltaX/e.deltaTime);
+		// e.deltaX = (e.deltaX * vel) / 2;
 		
 		//slow down on border conditions
 		activeItem = this.getActiveItem();
 		if((activeItem === 0 && e.deltaX > 0) || (activeItem === this.all.getCount() - 1 && e.deltaX < 0)){
-			e.deltaX = e.deltaX / 4;
+			delta.x = delta.x / 2;
 		}
 		
-		offset = new Ext.util.Offset(e.deltaX + curr.x, e.deltaY+curr.y);
+		offset = new Ext.util.Offset(delta.x + curr.x, delta.y+curr.y);
 		
 		this.setOffset(offset, true);
 	},
