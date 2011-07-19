@@ -35,7 +35,19 @@ Ext.regApplication({
 				'</div>'
 			],
 		    store: store,
-			activeItem: 2
+			activeItem: 2,
+			listeners:{
+				itemdoubletap: function(){
+					console.log('itemdbltap', arguments);
+				},
+				itemtap: function(cover, idx){
+					console.log('itemtap', arguments);
+					if(cover.activeItem !== idx){
+						cover.setActiveItem(idx);
+					}
+				},
+				scope: this
+			}
 		});
 
 				
