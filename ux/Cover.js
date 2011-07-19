@@ -11,7 +11,6 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 	itemBaseCls: 'ux-cover-item',
 	activeItem: 0,
 	
-	delta: 40,
 	angle: 70,
 	
 	initComponent: function(){
@@ -66,18 +65,15 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 		var curr = this.getOffset(),
 			offset,
 			activeItem,
-			vel;
-			
-		vel = Math.abs(e.deltaX/e.deltaTime);
-		e.deltaX *= (vel / 2);
-		
+			delta = {x: e.previousDeltaX, y: e.previousDeltaY};
+
 		//slow down on border conditions
 		activeItem = this.getActiveItem();
 		if((activeItem === 0 && e.deltaX > 0) || (activeItem === this.all.getCount() - 1 && e.deltaX < 0)){
-			e.deltaX = e.deltaX / 4;
+			delta.x = delta.x / 2;
 		}
 		
-		offset = new Ext.util.Offset(e.deltaX + curr.x, e.deltaY+curr.y);
+		offset = new Ext.util.Offset(delta.x + curr.x, delta.y+curr.y);
 		
 		this.setOffset(offset, true);
 	},
@@ -131,13 +127,14 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 		var w = itemBox.width;
 		this.gap = w / 3;
 		this.threshold = this.gap / 2; 
+		this.delta = w * 0.4;
 	},
 	
 	setItemTransformation: function(item, idx, offset){
 		var x = idx * this.gap,
 			ix = x + offset.x,
-			zi = 999,
-			dist,
+			// zi = 999,
+			// dist,
 			transf = "";//{rotate: [0,0,0], translate:[0,0,0]};
 		
 		if(ix < this.threshold && ix >= - this.threshold){
@@ -155,9 +152,9 @@ Ext.ux.Cover = Ext.extend(Ext.DataView, {
 		}	
 		// Ext.Element.cssTransform(item,transf);
 		item.dom.style.webkitTransform = transf;
-		dist = idx - this.activeItem;
 		//chrome needs to have zindex set in order to display correctly 
-		item.dom.style.zIndex = zi - (dist > 0 ? dist:-dist);
+		// dist = idx - this.activeItem;
+		// item.dom.style.zIndex = zi - (dist > 0 ? dist:-dist);
 	},
 	
 	refresh: function(){
