@@ -27,6 +27,7 @@ Ext.regApplication({
 			height: !Ext.is.Phone? 400: undefined,
 			width: !Ext.is.Phone? 800: undefined,
 			//end-demo
+			plugins:[new Ext.ux.Accelerometer()],
 		    itemTpl : [
 				'<div>',
 					'<div class="dev">{firstName} {lastName}</div>',
