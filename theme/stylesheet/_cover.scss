@@ -29,6 +29,7 @@ $cover-bg-color: #333 !default;
 		    -webkit-transition-timing-function: ease-out;
 			
 			.ux-cover-item-wrap {
+				padding-top: 1px;
 				-webkit-transform-style: preserve-3d;
 			    -webkit-transition-property: -webkit-transform;
 			    -webkit-transition-duration: 0.4s;
