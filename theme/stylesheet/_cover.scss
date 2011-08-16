@@ -14,31 +14,39 @@ $cover-bg-color: #333 !default;
 	.ux-cover {
 		background-color: $cover-bg-color;
 	    position: relative;
-		@include display-box;
 		overflow: hidden;
-		-webkit-perspective: 1000;
-		-webkit-transform-style: preserve-3d;
+		@include display-box;
+		@include perspective(1000);
+		
 		-webkit-touch-callout: none;
 	    -webkit-text-size-adjust: none;
 	    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
 		.ux-cover-scroller {
-			-webkit-transform-style: preserve-3d;
+			@include transform-style(preserve-3d);
+
+			@include transition-duration(0.4s);
+			@include transition-timing-function(easy-out);
+
+			//@include transition-property(-webkit-transform);
 			-webkit-transition-property: -webkit-transform;
-		    -webkit-transition-duration: 0.4s;
-		    -webkit-transition-timing-function: ease-out;
+
 			
 			.ux-cover-item-wrap {
 				padding-top: 1px;
-				-webkit-transform-style: preserve-3d;
-			    -webkit-transition-property: -webkit-transform;
-			    -webkit-transition-duration: 0.4s;
-			    -webkit-transition-timing-function: ease-out;
+				@include transform-style(preserve-3d);
+				@include transition-duration(0.4s);
+				@include transition-timing-function(easy-out);
+				
+				//@include transition-property(-webkit-transform);
+				-webkit-transition-property: -webkit-transform;
+				
 				background-color: $cover-bg-color;
 
 				position: absolute;
 				
 				.ux-cover-item {
+					//not yet implemented in compass?
 					-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
 				}
 			}
