@@ -5,8 +5,8 @@ Ext.application({
 		var cover = new Ext.ux.Cover({
 			itemCls: 'my-cover-item',
 			//These are just for demo purposes.
-			height: !Ext.is.Phone? 400: undefined,
-			width: !Ext.is.Phone? 800: undefined,
+			height: (Ext.os.deviceType !== 'Phone')? 400: undefined,
+			width: (Ext.os.deviceType !== 'Phone')? 800: undefined,
 			//end-demo
 		    itemTpl : [
 				'<div>',
@@ -56,7 +56,7 @@ Ext.application({
 				title: 'cover',
 				iconCls: 'favorites',
 				//Demo purpose
-				layout: Ext.is.Phone ? 'fit': {
+				layout: (Ext.os.deviceType === 'Phone')? 'fit': {
 					type: 'vbox',
 					pack:'center',
 					align: 'center'
