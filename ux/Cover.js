@@ -184,11 +184,12 @@ Ext.define('Ext.ux.Cover',{
 		var all = this.getViewItems(),
 			itemBox; 
 		
+		this.callParent();
+		
 		if (!this.isRendered()) {
             return;
         }
         	
-		this.callParent();
 		itemBox = this.getBaseItemBox(this.element.getBox());
 
 		this.setBoundaries(itemBox);

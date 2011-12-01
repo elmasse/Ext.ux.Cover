@@ -46,12 +46,8 @@ Ext.application({
 		});
 
 				
-		Ext.create('Ext.tab.Panel',{
-			fullscreen: true,
-			tabBar:{
-				dock: 'bottom',
-				layout: {pack: 'center'}
-			},
+		var tab = Ext.create('Ext.tab.Panel',{
+			tabBarPosition: 'bottom',
 			items:[{
 				title: 'cover',
 				iconCls: 'favorites',
@@ -64,6 +60,10 @@ Ext.application({
 				//end demo
 				items: [cover]
 			}]
-		})
+		});
+		
+		//weird fix to call refresh when orientation changes
+		Ext.Viewport.on('orientationchange', function(){cover.refresh();})
+		Ext.Viewport.add(tab);
 	}
 });
