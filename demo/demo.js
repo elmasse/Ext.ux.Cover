@@ -1,31 +1,12 @@
-Ext.regApplication({
+Ext.application({
+	name: 'Cover',
 	launch: function(){
-		Ext.regModel('Contact', {
-		    fields: ['firstName', 'lastName']
-		});
 
-		var store = new Ext.data.JsonStore({
-		    model  : 'Contact',
-
-		    data: [
-		        {firstName: 'Tommy',   lastName: 'Maintz', company: 'Sencha', image: './images/sencha.png'},
-		        {firstName: 'Rob',     lastName: 'Dougan', company: 'Sencha', image: './images/sencha.png'},
-		        {firstName: 'Max',     lastName: 'Fierro', company: 'elmasse!'},
-		        {firstName: 'Ed',      lastName: 'Spencer', company: 'Sencha', image: './images/sencha.png'},
-		        {firstName: 'Jamie',   lastName: 'Avins', company: 'Sencha', image: './images/sencha.png'},
-		        {firstName: 'Aaron',   lastName: 'Conran', company: 'Sencha', image: './images/sencha.png'},
-		        {firstName: 'Dave',    lastName: 'Kaneda', company: 'Sencha', image: './images/sencha.png'},
-   		        {firstName: 'Michael', lastName: 'Mullany', company: 'Sencha', image: './images/sencha.png'},
-   		        {firstName: 'Abraham', lastName: 'Elias', company: 'Sencha', image: './images/sencha.png'},
-			    {firstName: 'Jay',     lastName: 'Robinson', company: 'Sencha', image: './images/sencha.png'}
-		    ]
-		});
-		
 		var cover = new Ext.ux.Cover({
 			itemCls: 'my-cover-item',
 			//These are just for demo purposes.
-			height: !Ext.is.Phone? 400: undefined,
-			width: !Ext.is.Phone? 800: undefined,
+			height: (Ext.os.deviceType !== 'Phone')? 400: undefined,
+			width: (Ext.os.deviceType !== 'Phone')? 800: undefined,
 			//end-demo
 		    itemTpl : [
 				'<div>',
@@ -34,7 +15,21 @@ Ext.regApplication({
 					'<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
 				'</div>'
 			],
-		    store: store,
+			store : {
+			    fields: ['firstName', 'lastName', 'company', 'image'],
+			    data: [
+			        {firstName: 'Tommy',   lastName: 'Maintz', company: 'Sencha', image: './images/sencha.png'},
+			        {firstName: 'Rob',     lastName: 'Dougan', company: 'Sencha', image: './images/sencha.png'},
+			        {firstName: 'Max',     lastName: 'Fierro', company: 'elmasse!'},
+			        {firstName: 'Ed',      lastName: 'Spencer', company: 'Sencha', image: './images/sencha.png'},
+			        {firstName: 'Jamie',   lastName: 'Avins', company: 'Sencha', image: './images/sencha.png'},
+			        {firstName: 'Aaron',   lastName: 'Conran', company: 'Sencha', image: './images/sencha.png'},
+			        {firstName: 'Dave',    lastName: 'Kaneda', company: 'Sencha', image: './images/sencha.png'},
+	   		        {firstName: 'Michael', lastName: 'Mullany', company: 'Sencha', image: './images/sencha.png'},
+	   		        {firstName: 'Abraham', lastName: 'Elias', company: 'Sencha', image: './images/sencha.png'},
+				    {firstName: 'Jay',     lastName: 'Robinson', company: 'Sencha', image: './images/sencha.png'}
+			    ]
+			},
 			activeItem: 2,
 			listeners:{
 				itemdoubletap: function(){
@@ -51,17 +46,13 @@ Ext.regApplication({
 		});
 
 				
-		new Ext.TabPanel({
-			fullscreen: true,
-			tabBar:{
-				dock: 'bottom',
-				layout: {pack: 'center'}
-			},
+		var tab = Ext.create('Ext.tab.Panel',{
+			tabBarPosition: 'bottom',
 			items:[{
 				title: 'cover',
 				iconCls: 'favorites',
 				//Demo purpose
-				layout: Ext.is.Phone ? 'fit': {
+				layout: (Ext.os.deviceType === 'Phone')? 'fit': {
 					type: 'vbox',
 					pack:'center',
 					align: 'center'
@@ -69,6 +60,10 @@ Ext.regApplication({
 				//end demo
 				items: [cover]
 			}]
-		})
+		});
+		
+		//weird fix to call refresh when orientation changes
+		Ext.Viewport.on('orientationchange', function(){cover.refresh();})
+		Ext.Viewport.add(tab);
 	}
 });
