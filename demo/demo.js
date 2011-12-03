@@ -2,7 +2,7 @@ Ext.application({
 	name: 'Cover',
 	launch: function(){
 
-		var cover = new Ext.ux.Cover({
+		var cover = Ext.create('Ext.ux.Cover', {
 			itemCls: 'my-cover-item',
 			//These are just for demo purposes.
 			height: (Ext.os.deviceType !== 'Phone')? 400: undefined,
@@ -37,9 +37,6 @@ Ext.application({
 				},
 				itemtap: function(cover, idx){
 					console.log('itemtap', arguments);
-					if(cover.activeItem !== idx){
-						cover.setActiveItem(idx);
-					}
 				},
 				scope: this
 			}

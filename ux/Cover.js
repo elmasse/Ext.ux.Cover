@@ -1,8 +1,10 @@
-Ext.ns('Ext.ux');
 /**
-	@class Ext.ux.Cover
-    @author Maximiliano Fierro
-	@notes Inspired by zflow: http://css-vfx.googlecode.com/ By Charles Ying
+ * @class Ext.ux.Cover
+ * @extend Ext.DataView
+ *
+ * A Cover represents elements in a Store as visual elements in a Coverflow-like widget.
+ * @author Maximiliano Fierro
+ * @notes Inspired on zflow: http://css-vfx.googlecode.com/ By Charles Ying
 */
 Ext.define('Ext.ux.Cover',{
 	extend: 'Ext.DataView',
@@ -11,16 +13,30 @@ Ext.define('Ext.ux.Cover',{
 	requires: ['Ext.util.Offset'],
 
 	config:{
-		activeItem: 0,
-
-		angle: 70,
-		baseCls: 'ux-cover',
+		
+        /**
+         * @cfg {String} itemCls
+         * A css class name to be added to each item element.
+         */
 		itemCls: '',
+        /**
+         * @cfg {Boolean} preventSelectionOnItemTap
+         * Prevent selection when item is tapped. This is false by default.
+         */
+		preventSelectionOnItemTap: false,
+
+		//private
+		angle: 70,
+		//private
+		baseCls: 'ux-cover',
+		//private
 		itemBaseCls: 'ux-cover-item',
+		//private
 		scrollable: false
+		
 	},
 
-
+	//override
 	initialize: function(){
 		this.callParent();
 		
@@ -65,7 +81,6 @@ Ext.define('Ext.ux.Cover',{
 		return new Ext.XTemplate('<div class="' + this.getItemBaseCls() + ' ' + this.getItemCls() + ' ">'+config+'</div>');
 	},
 
-
 	onPainted: function(){
 		this.refresh();	
 	},
@@ -102,6 +117,12 @@ Ext.define('Ext.ux.Cover',{
 			x = - (idx * this.gap);
 		this.getTargetEl().dom.style.webkitTransitionDuration = "0.4s";
 		this.setOffset({x:x});
+	},
+	
+	doItemTap: function(cover, index, item, evt){
+		if(!this.getPreventSelectionOnItemTap() && this.getActiveItem() !== index){
+			this.setActiveItem(index);
+		}
 	},
 
 	getActiveItem: function(){
@@ -175,7 +196,7 @@ Ext.define('Ext.ux.Cover',{
 		}else if(ix > 0){
 			transf = "translate3d("+(x+this.delta)+"px, 0, 0) rotateY(-"+this.getAngle()+"deg)"
 		}else{
-		transf = "translate3d("+(x-this.delta)+"px, 0, 0) rotateY("+this.getAngle()+"deg)"
+			transf = "translate3d("+(x-this.delta)+"px, 0, 0) rotateY("+this.getAngle()+"deg)"
 		}	
 		item.dom.style.webkitTransform = transf;
 	},
