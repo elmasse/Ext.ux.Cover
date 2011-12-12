@@ -13,6 +13,13 @@ Ext.define('Ext.ux.Cover',{
 	requires: ['Ext.util.Offset'],
 
 	config:{
+       /**
+         * @cfg {Number} selectedIndex The idx from the Store that will be active first. Only one item can be active at a
+         * time
+         * @accessor
+         * @evented
+         */
+        selectedIndex: 0,
 		
         /**
          * @cfg {String} itemCls
@@ -51,6 +58,7 @@ Ext.define('Ext.ux.Cover',{
 		
 		this.on({
 			painted: 'onPainted',
+			itemtap: 'doItemTap',
 			scope: this
 		});	
 	},
@@ -98,49 +106,49 @@ Ext.define('Ext.ux.Cover',{
 		var curr = this.getOffset(),
 			offset,
 			ln = this.getViewItems().length,
-			activeItem,
+			selectedIndex,
 			delta = {x: e.previousDeltaX, y: e.previousDeltaY};
 
 		//slow down on border conditions
-		activeItem = this.getActiveItem();
-		if((activeItem === 0 && e.deltaX > 0) || (activeItem === ln - 1 && e.deltaX < 0)){
+		selectedIndex = this.getSelectedIndex();
+		if((selectedIndex === 0 && e.deltaX > 0) || (selectedIndex === ln - 1 && e.deltaX < 0)){
 			delta.x = delta.x / 2;
 		}
 
 		offset = new Ext.util.Offset(delta.x + curr.x, delta.y+curr.y);
-
+		
 		this.setOffset(offset, true);	
 	},
 
 	onDragEnd: function(){
-		var idx = this.getActiveItem(),
+		var idx = this.getSelectedIndex(),
 			x = - (idx * this.gap);
 		this.getTargetEl().dom.style.webkitTransitionDuration = "0.4s";
 		this.setOffset({x:x});
 	},
 	
 	doItemTap: function(cover, index, item, evt){
-		if(!this.getPreventSelectionOnItemTap() && this.getActiveItem() !== index){
-			this.setActiveItem(index);
+		if(!this.getPreventSelectionOnItemTap() && this.getSelectedIndex() !== index){
+			this.setSelectedIndex(index);
 		}
 	},
 
-	getActiveItem: function(){
+	getSelectedIndex: function(){
 		var idx, ln;
 		if(this.isRendered()){
 			ln = this.getViewItems().length;
 			idx = - Math.round(this.getOffset().x / this.gap);
-			this.activeItem = Math.min(Math.max(idx, 0),  ln - 1);
+			this.selectedIndex = Math.min(Math.max(idx, 0),  ln - 1);
 		}
-		return this.activeItem;
+		return this.selectedIndex;
 	},
 
 
-	applyActiveItem: function(idx){
+	applySelectedIndex: function(idx){
 		if(this.isRendered()){
 			this.updateOffsetToIdx(idx);
 		}else{
-			this.activeItem = idx;
+			this.selectedIndex = idx;
 		}
 	},
 
@@ -192,7 +200,7 @@ Ext.define('Ext.ux.Cover',{
 			transf = "";
 		if(ix < this.threshold && ix >= - this.threshold){
 			transf = "translate3d("+x+"px, 0, 150px)"
-			this.activeItem = idx;
+			this.selectedIndex = idx;
 		}else if(ix > 0){
 			transf = "translate3d("+(x+this.delta)+"px, 0, 0) rotateY(-"+this.getAngle()+"deg)"
 		}else{
@@ -225,7 +233,7 @@ Ext.define('Ext.ux.Cover',{
 			item.down('.'+this.getItemBaseCls()).setBox({height: itemBox.height/1.5, width: itemBox.width});
 		}, this);
 
-		this.setActiveItem(this.activeItem);
+		this.setSelectedIndex(this.selectedIndex);
 	}
 });
 

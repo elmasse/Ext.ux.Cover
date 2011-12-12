@@ -30,7 +30,7 @@ Ext.application({
 				    {firstName: 'Jay',     lastName: 'Robinson', company: 'Sencha', image: './images/sencha.png'}
 			    ]
 			},
-			activeItem: 2,
+			selectedIndex: 2,
 			listeners:{
 				itemdoubletap: function(){
 					console.log('itemdbltap', arguments);
