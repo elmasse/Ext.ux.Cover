@@ -37,7 +37,7 @@ Ext.define('Ext.ux.Cover',{
 		//private
 		baseCls: 'ux-cover',
 		//private
-		itemBaseCls: 'ux-cover-item',
+		itemBaseCls: 'ux-cover-item-inner',
 		//private
 		scrollable: false
 		
@@ -62,6 +62,33 @@ Ext.define('Ext.ux.Cover',{
 			scope: this
 		});	
 	},
+	
+	// doInitialize: function() {
+	//         var me = this,
+	//             container;
+	// 
+	//         me.on(me.getTriggerCtEvent(), me.onContainerTrigger, me);
+	// 
+	//         container = me.container = this.add(new Ext.dataview[me.getUseComponents() ? 'component' : 'element'].Container());
+	//         container.dataview = me;
+	// 
+	//         container.on(me.getTriggerEvent(), me.onItemTrigger, me);
+	// 
+	//         container.on({
+	//             itemtouchstart: 'onItemTouchStart',
+	//             itemtouchend: 'onItemTouchEnd',
+	//             itemtap: 'onItemTap',
+	//             itemtaphold: 'onItemTapHold',
+	//             itemtouchmove: 'onItemTouchMove',
+	//             itemdoubletap: 'onItemDoubleTap',
+	//             itemswipe: 'onItemSwipe',
+	//             scope: me
+	//         });
+	// 
+	//         if (this.getStore()) {
+	//             this.refresh();
+	//         }
+	//     },
 
 	getElementConfig: function(){
 		return {
