@@ -63,32 +63,6 @@ Ext.define('Ext.ux.Cover',{
 		});	
 	},
 	
-	// doInitialize: function() {
-	//         var me = this,
-	//             container;
-	// 
-	//         me.on(me.getTriggerCtEvent(), me.onContainerTrigger, me);
-	// 
-	//         container = me.container = this.add(new Ext.dataview[me.getUseComponents() ? 'component' : 'element'].Container());
-	//         container.dataview = me;
-	// 
-	//         container.on(me.getTriggerEvent(), me.onItemTrigger, me);
-	// 
-	//         container.on({
-	//             itemtouchstart: 'onItemTouchStart',
-	//             itemtouchend: 'onItemTouchEnd',
-	//             itemtap: 'onItemTap',
-	//             itemtaphold: 'onItemTapHold',
-	//             itemtouchmove: 'onItemTouchMove',
-	//             itemdoubletap: 'onItemDoubleTap',
-	//             itemswipe: 'onItemSwipe',
-	//             scope: me
-	//         });
-	// 
-	//         if (this.getStore()) {
-	//             this.refresh();
-	//         }
-	//     },
 
 	getElementConfig: function(){
 		return {
@@ -98,14 +72,6 @@ Ext.define('Ext.ux.Cover',{
 				reference: 'innerElement',
 				className: 'ux-cover-scroller'
 			}]
-		}
-	},
-
-	getItemElementConfig: function(index, data){
-		return {
-			cls: this.getItemBaseCls()+'-wrap',
-			itemIndex: index,
-			html: this.getItemTpl().apply(data)
 		}
 	},
 
