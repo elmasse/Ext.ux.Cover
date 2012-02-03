@@ -1,3 +1,5 @@
+Ext.require('Ext.ux.Cover');
+
 Ext.application({
 	name: 'Cover',
 	launch: function(){

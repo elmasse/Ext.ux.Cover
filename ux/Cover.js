@@ -10,8 +10,6 @@ Ext.define('Ext.ux.Cover',{
 	extend: 'Ext.DataView',
 	xtype: 'cover',
 
-	requires: ['Ext.util.Offset'],
-
 	config:{
        /**
          * @cfg {Number} selectedIndex The idx from the Store that will be active first. Only one item can be active at a
@@ -40,15 +38,15 @@ Ext.define('Ext.ux.Cover',{
 		itemBaseCls: 'ux-cover-item-inner',
 		//private
 		scrollable: false
-		
 	},
+	
+	offset: 0,
+	
 
 	//override
 	initialize: function(){
 		this.callParent();
 		
-		this.offset = new Ext.util.Offset();
-
 		this.element.on({
 			drag: 'onDrag',
 			dragstart: 'onDragStart',
@@ -100,15 +98,15 @@ Ext.define('Ext.ux.Cover',{
 			offset,
 			ln = this.getViewItems().length,
 			selectedIndex,
-			delta = {x: e.previousDeltaX, y: e.previousDeltaY};
+			delta = e.previousDeltaX;
 
 		//slow down on border conditions
 		selectedIndex = this.getSelectedIndex();
 		if((selectedIndex === 0 && e.deltaX > 0) || (selectedIndex === ln - 1 && e.deltaX < 0)){
-			delta.x = delta.x / 2;
+			delta.x *= 0.5;
 		}
 
-		offset = new Ext.util.Offset(delta.x + curr.x, delta.y+curr.y);
+		offset = delta + curr;
 		
 		this.setOffset(offset, true);	
 	},
@@ -117,7 +115,7 @@ Ext.define('Ext.ux.Cover',{
 		var idx = this.getSelectedIndex(),
 			x = - (idx * this.gap);
 		this.getTargetEl().dom.style.webkitTransitionDuration = "0.4s";
-		this.setOffset({x:x});
+		this.setOffset(x);
 	},
 	
 	doItemTap: function(cover, index, item, evt){
@@ -130,7 +128,7 @@ Ext.define('Ext.ux.Cover',{
 		var idx, ln;
 		if(this.isRendered()){
 			ln = this.getViewItems().length;
-			idx = - Math.round(this.getOffset().x / this.gap);
+			idx = - Math.round(this.getOffset() / this.gap);
 			this.selectedIndex = Math.min(Math.max(idx, 0),  ln - 1);
 		}
 		return this.selectedIndex;
@@ -146,21 +144,25 @@ Ext.define('Ext.ux.Cover',{
 	},
 
 	updateOffsetToIdx: function(idx){
-		var offset = new Ext.util.Offset()
-			ln = this.getViewItems().length;
+		var ln = this.getViewItems().length,
+			offset;
+		
 		idx = Math.min(Math.max(idx, 0), ln - 1);
-		offset.x = -(idx * this.gap);
+		offset= -(idx * this.gap);
 		this.setOffset(offset);	
 	},
 
 	setOffset: function(offset){
-		var all = this.getViewItems();
+		var items = this.getViewItems(),
+			idx = 0, 
+			l = items.length,
+			item;
 		this.offset = offset;
-		this.getTargetEl().dom.style.webkitTransform = "translate3d(" + offset.x + "px, 0, 0)";
-		Ext.Array.each(all, function(el, idx) {
-			var item = Ext.get(el); //??????
+		this.getTargetEl().dom.style.webkitTransform = "translate3d(" + offset + "px, 0, 0)";
+		for(;idx<l;idx++){
+			item = Ext.get(items[idx]);
 			this.setItemTransformation(item, idx, offset);
-		}, this);
+		}
 	},
 
 	getOffset: function(){
@@ -189,7 +191,7 @@ Ext.define('Ext.ux.Cover',{
 
 	setItemTransformation: function(item, idx, offset){
 		var x = idx * this.gap,
-			ix = x + offset.x,
+			ix = x + offset,
 			transf = "";
 		if(ix < this.threshold && ix >= - this.threshold){
 			transf = "translate3d("+x+"px, 0, 150px)"
@@ -203,8 +205,10 @@ Ext.define('Ext.ux.Cover',{
 	},
 
 	refresh: function(){
-		var all = this.getViewItems(),
-			itemBox; 
+		var items = this.getViewItems(),
+			idx = 0,
+			l = items.length,
+			itemBox, item; 
 		
 		this.callParent();
 		
@@ -213,18 +217,17 @@ Ext.define('Ext.ux.Cover',{
         }
         	
 		itemBox = this.getBaseItemBox(this.element.getBox());
-
 		this.setBoundaries(itemBox);
-
-		Ext.Array.each(all, function(el, idx) {
-			var item = Ext.get(el); 
+		
+		for(;idx<l;idx++){
+			item = Ext.get(items[idx]);
+			item.setBox(itemBox);
 			/**
 				itemBox has an extra long in height to avoid reflection opacity over other items
-				I needed to create a wrapper element with same bg to avoid that issue.
+				I need to create a wrapper element with same bg to avoid that issue.
 			*/
-			item.setBox(itemBox);
 			item.down('.'+this.getItemBaseCls()).setBox({height: itemBox.height/1.5, width: itemBox.width});
-		}, this);
+		}
 
 		this.setSelectedIndex(this.selectedIndex);
 	}
