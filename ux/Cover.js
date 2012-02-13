@@ -11,27 +11,31 @@ Ext.define('Ext.ux.Cover',{
 	xtype: 'cover',
 
 	config:{
-       /**
-         * @cfg {Number} selectedIndex The idx from the Store that will be active first. Only one item can be active at a
-         * time
-         * @accessor
-         * @evented
-         */
-        selectedIndex: 0,
+	       /**
+	         * @cfg {Number} selectedIndex The idx from the Store that will be active first. Only one item can be active at a
+	         * time
+	         * @accessor
+	         * @evented
+	         */
+	        selectedIndex: 0,
 		
-        /**
-         * @cfg {String} itemCls
-         * A css class name to be added to each item element.
-         */
+	        /**
+	         * @cfg {String} itemCls
+	         * A css class name to be added to each item element.
+	         */
 		itemCls: '',
-        /**
-         * @cfg {Boolean} preventSelectionOnItemTap
-         * Prevent selection when item is tapped. This is false by default.
-         */
+	        /**
+	         * @cfg {Boolean} preventSelectionOnItemTap
+       		 * Prevent selection when item is tapped. This is false by default.
+	         */
 		preventSelectionOnItemTap: false,
 
-		//private
+	        /**
+	         * @cfg {Number} angle for cover background items
+       		 * This is the angle that not selected items are moved in space.
+	         */		
 		angle: 70,
+		
 		//private
 		baseCls: 'ux-cover',
 		//private
@@ -204,18 +208,15 @@ Ext.define('Ext.ux.Cover',{
 		item.dom.style.webkitTransform = transf;
 	},
 
-	refresh: function(){
-		var items = this.getViewItems(),
-			idx = 0,
-			l = items.length,
-			itemBox, item; 
+	doRefresh: function(me){
+		var container = me.container,
+			items, idx = 0, l, itemBox,item;
 		
-		this.callParent();
+		this.callParent([me]);
 		
-		if (!this.isRendered()) {
-            return;
-        }
-        	
+		items = container.getViewItems();
+		l = items.length;
+
 		itemBox = this.getBaseItemBox(this.element.getBox());
 		this.setBoundaries(itemBox);
 		
