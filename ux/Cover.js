@@ -210,27 +210,53 @@ Ext.define('Ext.ux.Cover',{
 
 	doRefresh: function(me){
 		var container = me.container,
-			items, idx = 0, l, itemBox,item;
+			items, idx = 0, l;
 		
 		this.callParent([me]);
 		
 		items = container.getViewItems();
 		l = items.length;
 
-		itemBox = this.getBaseItemBox(this.element.getBox());
-		this.setBoundaries(itemBox);
+		this.itemBox = this.getBaseItemBox(this.element.getBox());
+		this.setBoundaries(this.itemBox);
 		
 		for(;idx<l;idx++){
-			item = Ext.get(items[idx]);
-			item.setBox(itemBox);
-			/**
-				itemBox has an extra long in height to avoid reflection opacity over other items
-				I need to create a wrapper element with same bg to avoid that issue.
-			*/
-			item.down('.'+this.getItemBaseCls()).setBox({height: itemBox.height/1.5, width: itemBox.width});
+			this.resizeItem(items[idx]);
 		}
 
 		this.setSelectedIndex(this.selectedIndex);
-	}
+	},
+	
+	resizeItem: function(element){
+		var itemBox = this.itemBox,
+			item = Ext.get(element);
+			
+		item.setBox(itemBox);
+		/**
+			itemBox has an extra long in height to avoid reflection opacity over other items
+			I need to create a wrapper element with same bg to avoid that issue.
+		*/
+		item.down('.'+this.getItemBaseCls()).setBox({height: itemBox.height/1.5, width: itemBox.width});
+	},
+	
+	//override
+	onStoreUpdate: function(store, record, newIndex, oldIndex) {
+        var me = this,
+            container = me.container,
+			item;
+        oldIndex = (typeof oldIndex === 'undefined') ? newIndex : oldIndex;
+
+        if (oldIndex !== newIndex) {
+            container.moveItemsToCache(oldIndex, oldIndex);
+            container.moveItemsFromCache([record]);
+        }
+        else {
+			item = container.getViewItems()[newIndex];
+            // Bypassing setter because sometimes we pass the same record (different data)
+            container.updateListItem(record, item);
+			me.resizeItem(item);
+
+        }
+    }
 });
 
