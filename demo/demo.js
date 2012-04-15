@@ -2,12 +2,17 @@ Ext.require('Ext.ux.Cover');
 
 Ext.application({
 	name: 'Cover',
+	
+	viewport: {
+		autoMaximize: true
+	},
+
 	launch: function(){
 
 		var cover = Ext.create('Ext.ux.Cover', {
 			itemCls: 'my-cover-item',
 			//These are just for demo purposes.
-			height: (Ext.os.deviceType !== 'Phone')? 400: undefined,
+			height: (Ext.os.deviceType !== 'Phone')? 300: undefined,
 			width: (Ext.os.deviceType !== 'Phone')? 800: undefined,
 			//end-demo
 		    itemTpl : [
@@ -22,7 +27,7 @@ Ext.application({
 			    data: [
 			        {firstName: 'Tommy',   lastName: 'Maintz', company: 'Sencha', image: './images/sencha.png'},
 			        {firstName: 'Rob',     lastName: 'Dougan', company: 'Sencha', image: './images/sencha.png'},
-			        {firstName: 'Max',     lastName: 'Fierro', company: 'elmasse!'},
+			        {firstName: 'Max',     lastName: 'Fierro', company: 'Sencha', image: './images/sencha.png'},
 			        {firstName: 'Ed',      lastName: 'Spencer', company: 'Sencha', image: './images/sencha.png'},
 			        {firstName: 'Jamie',   lastName: 'Avins', company: 'Sencha', image: './images/sencha.png'},
 			        {firstName: 'Aaron',   lastName: 'Conran', company: 'Sencha', image: './images/sencha.png'},

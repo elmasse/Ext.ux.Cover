@@ -22,11 +22,28 @@
 	<script src="demo/demo.js"></script>
 	
 	<style>
-		.my-cover-item {
+
+		.ux-cover .my-cover-item {
 			position: relative;
-			background: #FFF;
+			background-color: #BBB;
+			-webkit-box-shadow: 0px 0px 10px #333;
+		}
+		/**
+		 * Different styles for landscape and portrait mode
+		 */	
+		.ux-cover-landscape .my-cover-item{
+			font-size: 8px;
 		}
 		
+		.ux-cover-portrait .my-cover-item{
+			font-size: 12px;
+		}
+
+		/* This is just to make the demo looks good on desktop */
+		.x-desktop .my-cover-item{
+			font-size: 15px;
+		}
+
 		.my-cover-item .image{
 			position:absolute;
 			top:0;
@@ -37,6 +54,10 @@
 			z-index: 1;
 		}
 		
+		.my-cover-item .image img{
+			height: 100%;
+		}
+
 		.my-cover-item .dev {
 			color: black;
 		}
@@ -50,6 +71,12 @@
 			height: 20px;
 			width: 100%;
 			z-index: 10;
+		}
+
+		/*Do something cool with selected item*/
+		.x-item-selected .my-cover-item{
+			background-color: #FFF;
+
 		}
 		
 	</style>

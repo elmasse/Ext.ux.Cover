@@ -44,14 +44,21 @@ Ext.define('Ext.ux.Cover',{
         //private
         itemBaseCls: 'ux-cover-item-inner',
         //private
-        scrollable: false
+        scrollable: false,
+        //private
+        orientation: undefined
     },
     
     offset: 0,
     
-
     //override
     initialize: function(){
+        //we need somehow to put the itemCls to the tpl wraper element 
+        this.innerItemCls = this.getItemCls();
+        if(this.innerItemCls) {
+            this.setItemCls(this.innerItemCls+'-wrap');
+        }
+
         this.callParent();
         
         this.element.on({
@@ -67,8 +74,6 @@ Ext.define('Ext.ux.Cover',{
             scope: this
         }); 
 
-        if (Ext.os.is('Android')) { this.setFlat(true); }
-
         this.setItemTransformation = (this.getFlat())?this.setItemTransformFlat:this.setItemTransform3d;
     },
     
@@ -76,11 +81,22 @@ Ext.define('Ext.ux.Cover',{
     getElementConfig: function(){
         return {
             reference: 'element',
-            className: 'x-container',
             children:[{
                 reference: 'innerElement',
                 className: 'ux-cover-scroller'
             }]
+        }
+    },
+
+    applyFlat: function(flat) {
+        return (Ext.os.is('Android')? true : flat); 
+    },
+
+    updateOrientation: function(newOrientation, oldOrientation) {
+        var baseCls = this.getBaseCls();
+        if(this.element && newOrientation != oldOrientation) {
+            this.element.removeCls(baseCls+'-'+oldOrientation);
+            this.element.addCls(baseCls+'-'+newOrientation);
         }
     },
 
@@ -126,7 +142,8 @@ Ext.define('Ext.ux.Cover',{
         var idx = this.getSelectedIndex(),
             x = - (idx * this.gap);
         this.getTargetEl().dom.style.webkitTransitionDuration = "0.4s";
-        this.setOffset(x);
+        //this.setOffset(x);
+        this.applySelectedIndex(idx);
     },
     
     doItemTap: function(cover, index, item, evt){
@@ -145,10 +162,10 @@ Ext.define('Ext.ux.Cover',{
         return this.selectedIndex;
     },
 
-
     applySelectedIndex: function(idx){
         if(this.isRendered()){
             this.updateOffsetToIdx(idx);
+            this.selectWithEvent(this.getStore().getAt(idx));
         }else{
             this.selectedIndex = idx;
         }
@@ -181,9 +198,12 @@ Ext.define('Ext.ux.Cover',{
     },
 
     getBaseItemBox: function(containerBox){
-        var h, w;
+        var cH = containerBox.height,
+            cW = containerBox.width,
+            sizeFactor = (cW > cH) ? 0.68 : 0.52,
+            h, w;
 
-        h = w = Math.min(containerBox.width, containerBox.height) * 0.6; 
+        h = w = Math.min(containerBox.width, containerBox.height) * sizeFactor; 
 
         return {
             top: 40  ,
@@ -241,8 +261,11 @@ Ext.define('Ext.ux.Cover',{
 
     doRefresh: function(me){
         var container = me.container,
-            items, idx = 0, l;
+            items, idx = 0, l,
+            orientation = Ext.Viewport.getOrientation();
         
+        this.setOrientation(orientation);    
+
         this.callParent([me]);
         
         items = container.getViewItems();
