@@ -37,6 +37,10 @@ Ext.define('Ext.ux.Cover',{
          */     
         angle: 70,
         
+        /**
+         * @cfg {boolean} set to true if you want a flat representation. Defaults to false so the
+         * coverflow remains 3d.
+         */
         flat: false,
 
         //private
