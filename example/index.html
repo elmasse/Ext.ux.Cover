@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>index</title>
+	<meta name="author" content="Maximiliano Fierro">
+
+	<link rel="stylesheet" href="http://extjs.cachefly.net/touch/sencha-touch-2.0.0/resources/css/sencha-touch.css" type="text/css">
+    <script type="text/javascript" src="http://extjs.cachefly.net/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
+
+	<link rel="stylesheet" href="../css/cover.css">
+	<script>
+		Ext.Loader.setConfig({
+	    	enabled: true,
+	    	paths: {
+	        	'Ext.ux': '../ux'
+	    	}
+		});
+	</script>
+
+	<script src="example.js"></script>
+	
+	<style>
+
+		.album-cover {
+			position: relative;
+			-webkit-box-shadow: 0px 0px 10px #333;
+		}
+
+		.album-cover .artwork{
+			position:absolute;
+			top:0;
+			bottom:0;
+			width: 100%;
+			text-align: center;
+			overflow: hidden;
+			z-index: -10;
+		}
+
+		.album-cover .artwork img{
+			height: 100%;
+		}
+
+		.album-cover .description {
+			display: none;
+			background-color: rgba(0, 0, 0, 0.6);
+			color: #ddd;
+			font: 14px bold 'Helvetica';
+		}
+
+		.x-item-selected .album-cover .description{
+			display: block;
+		}
+
+		
+	</style>
+</head>
+<body>
+
+</body>
+</html>

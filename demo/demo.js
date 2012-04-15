@@ -67,7 +67,7 @@ Ext.application({
 		});
 		
 		//weird fix to call refresh when orientation changes
-		Ext.Viewport.on('orientationchange', function(){cover.refresh();})
+	//	Ext.Viewport.on('orientationchange', function(){cover.refresh();})
 		Ext.Viewport.add(tab);
 	}
 });

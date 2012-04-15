@@ -38,11 +38,17 @@ Ext.define('Ext.ux.Cover',{
         angle: 70,
         
         /**
-         * @cfg {boolean} set to true if you want a flat representation. Defaults to false so the
+         * @cfg {Boolean} set to true if you want a flat representation. Defaults to false so the
          * coverflow remains 3d.
          */
         flat: false,
 
+        /**
+         * @cfg {Boolean} preventOrientationChange
+         * Prevent attaching refresh method to orientation change event on Ext.Viewport
+         */
+        preventOrientationChange: false,
+ 
         //private
         baseCls: 'ux-cover',
         //private
@@ -77,6 +83,11 @@ Ext.define('Ext.ux.Cover',{
             itemtap: 'doItemTap',
             scope: this
         }); 
+
+        if(!this.getPreventOrientationChange()){
+            //subscribe to orientation change on viewport
+            Ext.Viewport.on('orientationchange', this.refresh, this);
+        }
 
         this.setItemTransformation = (this.getFlat())?this.setItemTransformFlat:this.setItemTransform3d;
     },
