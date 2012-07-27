@@ -40,9 +40,7 @@ $cover-bg-color: #333 !default;
 				
 				//@include transition-property(-webkit-transform);
 				-webkit-transition-property: -webkit-transform;
-				
-				background-color: $cover-bg-color;
-
+				border: 1px solid red;
 				position: absolute;
 				
 			}
@@ -50,10 +48,21 @@ $cover-bg-color: #333 !default;
 	
 		.ux-cover-item-inner {
 			background-color: #d0d0d0;
-			//not yet implemented in compass?
-			-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
 		}
-	
+
+
+		&.ux-cover-horizontal {
+			.ux-cover-item {
+				background-color: $cover-bg-color;
+			}
+
+			.ux-cover-item-inner {
+				//not yet implemented in compass?
+				-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
+
+			}
+	}
+
 	}
 
 

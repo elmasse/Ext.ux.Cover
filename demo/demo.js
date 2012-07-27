@@ -1,4 +1,4 @@
-Ext.require('Ext.ux.Cover');
+Ext.require('Ext.ux.cover.Cover');
 
 Ext.application({
 	name: 'CoverDemo',
@@ -26,7 +26,7 @@ Ext.application({
                         '<div>',
                             '<div class="dev">{firstName} {lastName}</div>',
                             '<div class="company">{company}</div>',
-                            '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
+//                            '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
                         '</div>'
                     ],
                     store : {
@@ -52,20 +52,21 @@ Ext.application({
                 layout: 'fit',
                 items: [{
                     xtype: 'cover',
+                    direction: 'vertical',
                     itemTpl : [
                         '<div>',
                             '<div class="dev">{firstName} {lastName}</div>',
                             '<div class="company">{company}</div>',
-                            '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
+                          //  '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
                         '</div>'
                     ],
                     store : {
                         storeId: 'store2',
                         fields: ['firstName', 'lastName', 'company', 'image'],
                         data: [
+                            {firstName: 'Abraham', lastName: 'Elias', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Dave',    lastName: 'Kaneda', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Michael', lastName: 'Mullany', company: 'Sencha', image: './images/sencha.png'},
-                            {firstName: 'Abraham', lastName: 'Elias', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Jay',     lastName: 'Robinson', company: 'Sencha', image: './images/sencha.png'}
                         ]
                     }
