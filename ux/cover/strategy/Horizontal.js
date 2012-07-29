@@ -8,6 +8,17 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
 	config : {
 		cover : undefined
 	},
+    
+    zIndex: 0,
+
+    itemBox: undefined,
+
+    boundaries: {
+        angle     : 70,
+        gap       : 0,
+        threshold : 0,
+        delta     : 0
+     }, 
 
 	constructor : function (config) {
 		this.initConfig(config);
@@ -15,8 +26,9 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
 	},
 
     calculateItemBox : function () {
-        var me = this.getCover(),
-            containerBox = me.element.getBox(),
+        var me = this,
+            cover = this.getCover(),
+            containerBox = cover.element.getBox(),
             cH = containerBox.height,
             cW = containerBox.width,
             sizeFactor = (cW > cH) ? 0.68 : 0.52,
@@ -33,8 +45,7 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
     },
 
     calculateBoundaries : function () {
-        var me = this.getCover(),
-            direction = me.getDirection(),
+        var me = this,
             itemBox = me.itemBox,
             w = itemBox.width,
             gap = w / 3;
@@ -43,11 +54,24 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
             gap       : gap,
             threshold : gap / 2,
             delta     : w * 0.4
-        });   
+        });
+    },
+
+
+    calculateOffsetForIndex : function (idx){
+        var me = this,
+            cover = me.getCover(),
+            items = cover.getVisibleItems(),
+            l = items.length,
+            gap = me.boundaries.gap;
+        
+        idx = Math.min(Math.max(idx, 0), l - 1);
+        return -(idx * gap);
     },
 
     setItemTransformation : function (item, idx, offset) {
-        var me = this.getCover(),
+        var me = this,
+            cover = this.getCover(),
             gap = me.boundaries.gap,
             threshold = me.boundaries.threshold,
             delta = me.boundaries.delta,
@@ -55,19 +79,23 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
             x = idx * gap,
             ix = x + offset,
             transf = "";
-
+console.log(ix, arguments)
         if(ix < threshold && ix >= - threshold){
-            transf = "translate3d("+x+"px, 0, 0)"
-            me.updateSelectedIndex(idx);
+            transf = "translate3d("+x+"px, 0, 100px)";
+            cover.updateSelectedIndex(idx);
         }else if(ix > 0){
-            transf = "translate3d("+(x+delta)+"px, 0, 0) rotateY(-"+angle+"deg)"
+            transf = "translate3d("+(x+delta)+"px, 0, 0) rotateY(-"+angle+"deg)";
         }else{
-            transf = "translate3d("+(x-delta)+"px, 0, 0) rotateY("+angle+"deg)"
+            transf = "translate3d("+(x-delta)+"px, 0, 0) rotateY("+angle+"deg)";
         }   
         item.dom.style.webkitTransform = transf;
     },
 
     applyOffsetToScroller : function (offset) {
         this.getCover().innerElement.dom.style.webkitTransform = "translate3d(" + offset + "px, 0, 0)";
-    } 
+    },
+
+    nextZIndex: function() {
+        return this.zIndex++;
+    }
 }); 

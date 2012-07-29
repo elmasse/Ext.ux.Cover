@@ -33,6 +33,8 @@ $cover-bg-color: #333 !default;
 
 			
 			.ux-cover-item {
+				border: 1px solid red;
+
 				padding-top: 1px;
 				@include transform-style(preserve-3d);
 				@include transition-duration(0.4s);
@@ -40,30 +42,35 @@ $cover-bg-color: #333 !default;
 				
 				//@include transition-property(-webkit-transform);
 				-webkit-transition-property: -webkit-transform;
-				border: 1px solid red;
 				position: absolute;
 				
 			}
 		}
 	
 		.ux-cover-item-inner {
+			border: 1px solid green;
+
 			background-color: #d0d0d0;
 		}
-
-
-		&.ux-cover-horizontal {
-			.ux-cover-item {
-				background-color: $cover-bg-color;
-			}
-
-			.ux-cover-item-inner {
-				//not yet implemented in compass?
-				-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
-
-			}
 	}
 
+	//Strategy Horizontal
+	.ux-cover.ux-cover-horizontal {
+		.ux-cover-item {
+			background-color: $cover-bg-color;
+		}
+
+		.ux-cover-item-inner {
+			//not yet implemented in compass?
+			-webkit-box-reflect: below 2px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent),  to(rgba(0,0,0, 0.3)));
+
+		}
 	}
 
+	//Strategy Vertical
+	.ux-cover.ux-cover-vertical {
+		-webkit-perspective-origin: 50% 0%;
+
+	}
 
 }

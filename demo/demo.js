@@ -12,6 +12,7 @@ Ext.application({
         Ext.Viewport.add({
             xtype: 'tabpanel',
             tabBarPosition: 'bottom',
+            activeItem: 1,
             items:[{
                 xtype: 'titlebar',
                 title: 'Cover Demo',
@@ -64,6 +65,11 @@ Ext.application({
                         storeId: 'store2',
                         fields: ['firstName', 'lastName', 'company', 'image'],
                         data: [
+                            {firstName: 'Tommy',   lastName: 'Maintz', company: 'Sencha', image: './images/sencha.png'},
+                            {firstName: 'Rob',     lastName: 'Dougan', company: 'Sencha', image: './images/sencha.png'},
+                            {firstName: 'Max',     lastName: 'Fierro', company: 'Sencha', image: './images/sencha.png'},
+                            {firstName: 'Ed',      lastName: 'Spencer', company: 'Sencha', image: './images/sencha.png'},
+                            {firstName: 'Jamie',   lastName: 'Avins', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Abraham', lastName: 'Elias', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Dave',    lastName: 'Kaneda', company: 'Sencha', image: './images/sencha.png'},
                             {firstName: 'Michael', lastName: 'Mullany', company: 'Sencha', image: './images/sencha.png'},

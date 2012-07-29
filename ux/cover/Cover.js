@@ -41,17 +41,6 @@ Ext.define('Ext.ux.cover.Cover', {
      },
 
     //private
-    itemBox: undefined,
-
-    //private
-    boundaries: {
-        angle     : 70,
-        gap       : 0,
-        threshold : 0,
-        delta     : 0
-     }, 
-
-    //private
     storeEvents: {
         'addrecords'    : 'onStoreAdd',
         'beforeload'    : 'onStoreBeforeLoad',
@@ -111,7 +100,7 @@ Ext.define('Ext.ux.cover.Cover', {
         var me = this,
             offset;
         if(me.isPainted()) {
-            offset = me.calculateOffsetForIndex(selectedIndex);
+            offset = me.strategy.calculateOffsetForIndex(selectedIndex);
             me.setOffset(offset);
         }
 
@@ -171,7 +160,7 @@ Ext.define('Ext.ux.cover.Cover', {
             records = store.getRange(),
             selectedIndex = me.getSelectedIndex();
 
-        // me.list.removeAll(true, true);
+        me.list.removeAll(true, true);
 
         me.addRecords(records);
         me.setSelectedIndex(selectedIndex);
@@ -215,14 +204,15 @@ Ext.define('Ext.ux.cover.Cover', {
     prepareItem : function(record) {
         var me = this,
             itemTpl = me.getItemTpl(),
-            itemBox = me.itemBox;
+            itemBox = me.strategy.itemBox;
 
         return Ext.apply({
             xtype  : 'component',
             baseCls: 'ux-cover-item',
             styleHtmlContent: true,
             styleHtmlCls: 'ux-cover-item-inner',
-            html   : itemTpl.apply(me.prepareData(record))
+            html   : itemTpl.apply(me.prepareData(record)),
+            zIndex : me.strategy.nextZIndex(), 
         }, itemBox);
     },
 
@@ -250,9 +240,7 @@ Ext.define('Ext.ux.cover.Cover', {
 
 
     onPainted : function() {
-        console.log("painted", arguments);
         var me = this,
-            direction = me.getDirection(),
             store = me.getStore();
 
         me.strategy.calculateItemBox(); 
@@ -265,16 +253,6 @@ Ext.define('Ext.ux.cover.Cover', {
 
     getVisibleItems : function() {
         return this.list.getItems().items;
-    },
-
-    calculateOffsetForIndex : function (idx){
-        var me = this,
-            items = me.getVisibleItems(),
-            l = items.length,
-            gap = me.boundaries.gap;
-        
-        idx = Math.min(Math.max(idx, 0), l - 1);
-        return -(idx * gap);
     },
 
     updateItemsOffset : function(offset) {
