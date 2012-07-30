@@ -57,6 +57,22 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
         });
     },
 
+    calculateOffsetOnDrag: function(e){
+        var me = this,
+            cover = me.getCover(),
+            curr = cover.getOffset(),
+            ln = cover.getVisibleItems().length,
+            selectedIndex, 
+            offset,
+            delta = e.previousDeltaX;
+
+        //slow down on border conditions
+        selectedIndex = cover.getSelectedIndex();
+        if((selectedIndex === 0 && e.deltaX > 0) || (selectedIndex === ln - 1 && e.deltaX < 0)){
+            delta *= 0.5;
+        }
+        return delta + curr;
+    },
 
     calculateOffsetForIndex : function (idx){
         var me = this,
@@ -79,7 +95,7 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
             x = idx * gap,
             ix = x + offset,
             transf = "";
-console.log(ix, arguments)
+
         if(ix < threshold && ix >= - threshold){
             transf = "translate3d("+x+"px, 0, 100px)";
             cover.updateSelectedIndex(idx);

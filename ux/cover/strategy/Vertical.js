@@ -38,7 +38,7 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
         h = w = Math.min(containerBox.width, containerBox.height) * sizeFactor; 
 
         me.itemBox = {
-            top: (containerBox.height - h),
+            top: (containerBox.height - h) / 2,
             height: h,
             width: w,
             left: (containerBox.width - w) / 2 
@@ -50,16 +50,35 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
             cover = this.getCover(),
             itemBox = me.itemBox,
             h = itemBox.height,
-            gap = h * 0.1;
+            gap = h * 0.3;
 
         Ext.apply(me.boundaries, {
             angle     : 0,
             gap       : gap,
-            threshold : gap * 0.5,
+            threshold : gap / 2,
             delta     : 0
         }); 
     },
 
+    calculateOffsetOnDrag: function(e){
+        var me = this,
+            cover = me.getCover(),
+            curr = cover.getOffset(),
+            ln = cover.getVisibleItems().length,
+            selectedIndex, 
+            offset,
+            delta = e.previousDeltaY;
+
+        //slow down on border conditions
+        selectedIndex = cover.getSelectedIndex();
+        if((selectedIndex === 0 && e.deltaY > 0) || (selectedIndex === ln - 1 && e.deltaY < 0)){
+            delta *= 0.5;
+        }
+
+console.log(delta+curr, curr, delta)
+
+        return (delta + curr);
+    },
 
     calculateOffsetForIndex : function (idx){
         var me = this,
@@ -82,21 +101,20 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
             y = idx * gap,
             iy = y + offset,
             transf = "";
-console.log(arguments);
 
         if(iy < threshold && iy >= - threshold){
             transf = "translate3d(0, "+y+"px, 0px)";
             cover.updateSelectedIndex(idx);
         }else if(iy > 0){
-            transf = "translate3d(0, "+(y+delta)+"px, "+(iy)*(-10)+"px)";
+            transf = "translate3d(0, "+(y+delta)+"px, "+(iy)*(-5)+"px)";
         }else{
             transf = "translate3d(0, 0, 1000px) ";
         }
-console.log(transf)
         item.dom.style.webkitTransform = transf;
     },
 
     applyOffsetToScroller : function (offset) {
+        console.log(offset)
        this.getCover().innerElement.dom.style.webkitTransform = "translate3d(0, " + offset + "px, 0)";
     },
 

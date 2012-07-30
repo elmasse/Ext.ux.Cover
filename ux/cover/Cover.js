@@ -60,7 +60,7 @@ Ext.define('Ext.ux.cover.Cover', {
 
         me.on({
             painted : 'onPainted',
-            scope: me
+            scope   : me
         })
 
         me.element.on({
@@ -225,15 +225,18 @@ Ext.define('Ext.ux.cover.Cover', {
     // -- Scroller Listeners
 
     onDragStart : function() {
-    	console.log('dragStart');
+    	this.innerElement.dom.style.webkitTransitionDuration = "0s";
     },
     
-    onDrag : function(){
-    	console.log('drag');
+    onDrag : function(e){
+        var offset = this.strategy.calculateOffsetOnDrag(e);
+        this.updateItemsOffset(offset);
     },
 
     onDragEnd : function() {
-    	console.log('dragEnd');
+        var idx = this.getSelectedIndex();
+        this.innerElement.dom.style.webkitTransitionDuration = "0.4s";
+        this.applySelectedIndex(idx);
     },
 
     // -- End Scroller Listeners
@@ -256,7 +259,6 @@ Ext.define('Ext.ux.cover.Cover', {
     },
 
     updateItemsOffset : function(offset) {
-        console.log('updat items off', arguments);
         var me = this,
             items = me.getVisibleItems(),
             l = items.length,
@@ -265,6 +267,7 @@ Ext.define('Ext.ux.cover.Cover', {
             item;
 
         me.strategy.applyOffsetToScroller(offset);
+        me.updateOffset(offset);
 
         for(;i < l; i++){
             item = items[i].element;
