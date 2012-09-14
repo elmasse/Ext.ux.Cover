@@ -92,7 +92,7 @@ Ext.define('Ext.ux.cover.strategy.Horizontal', {
             threshold = me.boundaries.threshold,
             delta = me.boundaries.delta,
             angle = me.boundaries.angle,
-            x = idx * gap,
+            x = -(me.calculateOffsetForIndex(idx)),
             ix = x + offset,
             transf = "";
 

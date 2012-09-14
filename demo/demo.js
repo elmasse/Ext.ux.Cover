@@ -23,11 +23,12 @@ Ext.application({
                 layout: 'fit',
                 items: [{
                     xtype: 'cover',
+                    // cls: 'my-cover-item',
                     itemTpl : [
                         '<div>',
                             '<div class="dev">{firstName} {lastName}</div>',
                             '<div class="company">{company}</div>',
-//                            '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
+                           '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
                         '</div>'
                     ],
                     store : {
@@ -54,11 +55,12 @@ Ext.application({
                 items: [{
                     xtype: 'cover',
                     direction: 'vertical',
+                    // cls: 'my-cover-item',
                     itemTpl : [
                         '<div>',
                             '<div class="dev">{firstName} {lastName}</div>',
                             '<div class="company">{company}</div>',
-                          //  '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
+                            '<div class="image"><tpl if="image"><img  src="{image}"></tpl></div>',
                         '</div>'
                     ],
                     store : {

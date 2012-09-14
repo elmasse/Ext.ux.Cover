@@ -34,11 +34,11 @@ Ext.define('Ext.ux.cover.Cover', {
         },
 
         direction: 'horizontal',
-
+        
         //private
         offset: undefined
   
-     },
+    },
 
     //private
     storeEvents: {
@@ -204,7 +204,8 @@ Ext.define('Ext.ux.cover.Cover', {
     prepareItem : function(record) {
         var me = this,
             itemTpl = me.getItemTpl(),
-            itemBox = me.strategy.itemBox;
+            itemBox = me.strategy.itemBox,
+            zIndex = me.strategy.nextZIndex();
 
         return Ext.apply({
             xtype  : 'component',
@@ -212,7 +213,7 @@ Ext.define('Ext.ux.cover.Cover', {
             styleHtmlContent: true,
             styleHtmlCls: 'ux-cover-item-inner',
             html   : itemTpl.apply(me.prepareData(record)),
-            zIndex : me.strategy.nextZIndex(), 
+            zIndex : zIndex, 
         }, itemBox);
     },
 

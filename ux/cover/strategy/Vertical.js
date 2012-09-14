@@ -14,7 +14,6 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
     zIndex: 9999,
 
     boundaries: {
-        angle     : 70,
         gap       : 0,
         threshold : 0,
         delta     : 0
@@ -50,7 +49,7 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
             cover = this.getCover(),
             itemBox = me.itemBox,
             h = itemBox.height,
-            gap = h * 0.3;
+            gap = h * 0.1;
 
         Ext.apply(me.boundaries, {
             angle     : 0,
@@ -71,12 +70,10 @@ Ext.define('Ext.ux.cover.strategy.Vertical', {
 
         //slow down on border conditions
         selectedIndex = cover.getSelectedIndex();
-        if((selectedIndex === 0 && e.deltaY > 0) || (selectedIndex === ln - 1 && e.deltaY < 0)){
-            delta *= 0.5;
+
+        if((selectedIndex === 0 && e.deltaY < 0) || (selectedIndex === ln - 1 && e.deltaY > 0)){
+            delta /= 100;
         }
-
-console.log(delta+curr, curr, delta)
-
         return (delta + curr);
     },
 
@@ -88,7 +85,7 @@ console.log(delta+curr, curr, delta)
             gap = me.boundaries.gap;
         
         idx = Math.min(Math.max(idx, 0), l - 1);
-        return -(idx * gap);
+        return (idx * gap);
     },
 
     setItemTransformation : function (item, idx, offset) {
@@ -97,25 +94,26 @@ console.log(delta+curr, curr, delta)
             gap = me.boundaries.gap,
             threshold = me.boundaries.threshold,
             delta = me.boundaries.delta,
-            angle = me.boundaries.angle,
-            y = idx * gap,
+            y = -me.calculateOffsetForIndex(idx),//idx * gap,
             iy = y + offset,
+            z = iy*10,
             transf = "";
 
         if(iy < threshold && iy >= - threshold){
             transf = "translate3d(0, "+y+"px, 0px)";
             cover.updateSelectedIndex(idx);
-        }else if(iy > 0){
-            transf = "translate3d(0, "+(y+delta)+"px, "+(iy)*(-5)+"px)";
+        }else if(iy < 0){
+            transf = "translate3d(0, "+(y+delta)+"px, "+(z)+"px)";
         }else{
-            transf = "translate3d(0, 0, 1000px) ";
+            transf = "translate3d(0, "+(y-delta)+"px, 1000px) ";
         }
         item.dom.style.webkitTransform = transf;
     },
 
     applyOffsetToScroller : function (offset) {
-        console.log(offset)
-       this.getCover().innerElement.dom.style.webkitTransform = "translate3d(0, " + offset + "px, 0)";
+
+        console.log(offset, "applyOffsetToScroller");
+        this.getCover().innerElement.dom.style.webkitTransform = "translate3d(0," + offset + "px, 0)";
     },
 
     nextZIndex: function() {

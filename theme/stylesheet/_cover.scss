@@ -1,4 +1,4 @@
-@import 'sencha-touch/default/global';
+@import "compass/css3";
 
 /**
  * @global {color} [$cover-bg-color=#333]
@@ -49,7 +49,7 @@ $cover-bg-color: #333 !default;
 	
 		.ux-cover-item-inner {
 			border: 1px solid green;
-
+			
 			background-color: #d0d0d0;
 		}
 	}
@@ -69,7 +69,7 @@ $cover-bg-color: #333 !default;
 
 	//Strategy Vertical
 	.ux-cover.ux-cover-vertical {
-		-webkit-perspective-origin: 50% -25%;
+		-webkit-perspective-origin: 50% 0%;
 
 	}
 
