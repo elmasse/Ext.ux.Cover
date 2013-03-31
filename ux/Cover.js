@@ -18,7 +18,7 @@ Ext.define('Ext.ux.Cover',{
          * @evented
          */
         selectedIndex: 0,
-    
+
         /**
          * @cfg {String} itemCls
          * A css class name to be added to each item element.
@@ -34,9 +34,9 @@ Ext.define('Ext.ux.Cover',{
         /**
          * @cfg {Number} angle for cover background items
          * This is the angle that not selected items are moved in space.
-         */     
+         */
         angle: 70,
-        
+
         /**
          * @cfg {Boolean} set to true if you want a flat representation. Defaults to false so the
          * coverflow remains 3d.
@@ -48,19 +48,19 @@ Ext.define('Ext.ux.Cover',{
          * Prevent attaching refresh method to orientation change event on Ext.Viewport
          */
         preventOrientationChange: false,
- 
+
         //private
         baseCls: 'ux-cover',
         //private
         itemBaseCls: 'ux-cover-item-inner',
         //private
-        scrollable: false,
+        scrollable: null,
         //private
         orientation: undefined
     },
-    
+
     offset: 0,
-    
+
     //override
     initialize: function(){
         //we need somehow to put the itemCls to the tpl wraper element 
@@ -70,19 +70,19 @@ Ext.define('Ext.ux.Cover',{
         }
 
         this.callParent();
-        
+
         this.element.on({
             drag: 'onDrag',
             dragstart: 'onDragStart',
             dragend: 'onDragEnd',
             scope: this
         });
-        
+
         this.on({
             painted: 'onPainted',
             itemtap: 'doItemTap',
             scope: this
-        }); 
+        });
 
         if(!this.getPreventOrientationChange()){
             //subscribe to orientation change on viewport
@@ -91,7 +91,7 @@ Ext.define('Ext.ux.Cover',{
 
         this.setItemTransformation = (this.getFlat())?this.setItemTransformFlat:this.setItemTransform3d;
     },
-    
+
 
     getElementConfig: function(){
         return {
@@ -100,11 +100,11 @@ Ext.define('Ext.ux.Cover',{
                 reference: 'innerElement',
                 className: 'ux-cover-scroller'
             }]
-        }
+        };
     },
 
     applyFlat: function(flat) {
-        return (Ext.os.is('Android')? true : flat); 
+        return (Ext.os.is('Android')? true : flat);
     },
 
     updateOrientation: function(newOrientation, oldOrientation) {
@@ -123,12 +123,12 @@ Ext.define('Ext.ux.Cover',{
     },
 
     onPainted: function(){
-        this.refresh(); 
+        this.refresh();
     },
 
     //private
     getTargetEl: function(){
-        return this.innerElement;   
+        return this.innerElement;
     },
 
     onDragStart: function(){
@@ -149,8 +149,8 @@ Ext.define('Ext.ux.Cover',{
         }
 
         offset = delta + curr;
-        
-        this.setOffset(offset, true);   
+
+        this.setOffset(offset, true);
     },
 
     onDragEnd: function(){
@@ -160,7 +160,7 @@ Ext.define('Ext.ux.Cover',{
         //this.setOffset(x);
         this.applySelectedIndex(idx);
     },
-    
+
     doItemTap: function(cover, index, item, evt){
         if(!this.getPreventSelectionOnItemTap() && this.getSelectedIndex() !== index){
             this.setSelectedIndex(index);
@@ -189,15 +189,15 @@ Ext.define('Ext.ux.Cover',{
     updateOffsetToIdx: function(idx){
         var ln = this.getViewItems().length,
             offset;
-        
+
         idx = Math.min(Math.max(idx, 0), ln - 1);
         offset= -(idx * this.gap);
-        this.setOffset(offset); 
+        this.setOffset(offset);
     },
 
     setOffset: function(offset){
         var items = this.getViewItems(),
-            idx = 0, 
+            idx = 0,
             l = items.length,
             item;
         this.offset = offset;
@@ -218,13 +218,13 @@ Ext.define('Ext.ux.Cover',{
             sizeFactor = (cW > cH) ? 0.68 : 0.52,
             h, w;
 
-        h = w = Math.min(containerBox.width, containerBox.height) * sizeFactor; 
+        h = w = Math.min(containerBox.width, containerBox.height) * sizeFactor;
 
         return {
             top: 40  ,
-            height: h * 1.5, 
+            height: h * 1.5,
             width: w,
-            left: (containerBox.width - w) / 2 
+            left: (containerBox.width - w) / 2
         };
     },
 
@@ -232,11 +232,11 @@ Ext.define('Ext.ux.Cover',{
         var w = itemBox.width;
         if(this.getFlat()){
             this.gap = w * 1.1;
-            this.threshold = this.gap / 3; 
+            this.threshold = this.gap / 3;
             this.delta = w * 0.2;
         } else {
             this.gap = w / 3;
-            this.threshold = this.gap / 2; 
+            this.threshold = this.gap / 2;
             this.delta = w * 0.4;
         }
     },
@@ -248,13 +248,13 @@ Ext.define('Ext.ux.Cover',{
             ix = x + offset,
             transf = "";
         if(ix < this.threshold && ix >= - this.threshold){
-            transf = "translate3d("+x+"px, 0, 150px)"
+            transf = "translate3d("+x+"px, 0, 150px)";
             this.selectedIndex = idx;
         }else if(ix > 0){
-            transf = "translate3d("+(x+this.delta)+"px, 0, 0) rotateY(-"+this.getAngle()+"deg)"
+            transf = "translate3d("+(x+this.delta)+"px, 0, 0) rotateY(-"+this.getAngle()+"deg)";
         }else{
-            transf = "translate3d("+(x-this.delta)+"px, 0, 0) rotateY("+this.getAngle()+"deg)"
-        }   
+            transf = "translate3d("+(x-this.delta)+"px, 0, 0) rotateY("+this.getAngle()+"deg)";
+        }
         item.dom.style.webkitTransform = transf;
     },
 
@@ -263,13 +263,13 @@ Ext.define('Ext.ux.Cover',{
             ix = x + offset,
             transf = "";
         if(ix < this.threshold && ix >= - this.threshold){
-            transf = "translate3d("+x+"px, 0, 150px)"
+            transf = "translate3d("+x+"px, 0, 150px)";
             this.selectedIndex = idx;
         }else if(ix > 0){
-            transf = "translate3d("+(x+this.delta)+"px, 0, 0)"
+            transf = "translate3d("+(x+this.delta)+"px, 0, 0)";
         }else{
-            transf = "translate3d("+(x-this.delta)+"px, 0, 0)"
-        }   
+            transf = "translate3d("+(x-this.delta)+"px, 0, 0)";
+        }
         item.dom.style.webkitTransform = transf;
     },
 
@@ -278,28 +278,28 @@ Ext.define('Ext.ux.Cover',{
         var container = me.container,
             items, idx = 0, l,
             orientation = Ext.Viewport.getOrientation();
-        
-        this.setOrientation(orientation);    
+
+        this.setOrientation(orientation);
 
         this.callParent([me]);
-        
+
         items = container.getViewItems();
         l = items.length;
 
         this.itemBox = this.getBaseItemBox(this.element.getBox());
         this.setBoundaries(this.itemBox);
-        
+
         for(;idx<l;idx++){
             this.resizeItem(items[idx]);
         }
 
         this.setSelectedIndex(this.selectedIndex);
     },
-    
+
     resizeItem: function(element){
         var itemBox = this.itemBox,
             item = Ext.get(element);
-            
+
         item.setBox(itemBox);
         /**
             itemBox has an extra long in height to avoid reflection opacity over other items
@@ -307,7 +307,7 @@ Ext.define('Ext.ux.Cover',{
         */
         item.down('.'+this.getItemBaseCls()).setBox({height: itemBox.height/1.5, width: itemBox.width});
     },
-    
+
     //override
     onStoreUpdate: function(store, record, newIndex, oldIndex) {
         var me = this,
