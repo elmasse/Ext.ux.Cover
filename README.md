@@ -9,6 +9,8 @@ Latest Changes
 ---
 - v0.2.3
     * Fixed small issue for ST 2.1.1
+    * Tested with ST 2.1.0
+    * Tested with ST 2.2.0-rc
 
 - v0.2.2
 	* Compatibility for ST 2.0.0 GA final version.
