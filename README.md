@@ -7,6 +7,10 @@ Please see the wiki for documentation/references.
 
 Latest Changes
 ---
+- v0.2.4
+    * Fixed issue with onDrag see [issue #3](https://github.com/elmasse/Ext.ux.Cover/issues/3)
+    * Tested with ST 2.2 and 2.2.1
+
 - v0.2.3
     * Fixed small issue for ST 2.1.1
     * Tested with ST 2.1.0

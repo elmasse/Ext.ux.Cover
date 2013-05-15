@@ -140,15 +140,16 @@ Ext.define('Ext.ux.Cover',{
             offset,
             ln = this.getViewItems().length,
             selectedIndex,
-            delta = e.previousDeltaX;
+            delta = (e.deltaX - e.previousDeltaX);
 
         //slow down on border conditions
         selectedIndex = this.getSelectedIndex();
-        if((selectedIndex === 0 && e.deltaX > 0) || (selectedIndex === ln - 1 && e.deltaX < 0)){
-            delta.x *= 0.5;
+
+        if ((selectedIndex === 0 && e.deltaX > 0) || (selectedIndex === ln - 1 && e.deltaX < 0)) {
+            delta *= 0.5;
         }
 
-        offset = delta + curr;
+        offset = curr + delta;
 
         this.setOffset(offset, true);
     },
