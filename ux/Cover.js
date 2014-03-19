@@ -56,7 +56,7 @@ Ext.define('Ext.ux.Cover',{
         //private
         scrollable: null,
         //private
-        orientation: undefined
+        orientationCls: undefined
     },
 
     offset: 0,
@@ -107,7 +107,7 @@ Ext.define('Ext.ux.Cover',{
         return (Ext.os.is('Android')? true : flat);
     },
 
-    updateOrientation: function(newOrientation, oldOrientation) {
+    updateOrientationCls: function(newOrientation, oldOrientation) {
         var baseCls = this.getBaseCls();
         if(this.element && newOrientation != oldOrientation) {
             this.element.removeCls(baseCls+'-'+oldOrientation);
@@ -280,7 +280,7 @@ Ext.define('Ext.ux.Cover',{
             items, idx = 0, l,
             orientation = Ext.Viewport.getOrientation();
 
-        this.setOrientation(orientation);
+        this.setOrientationCls(orientation);
 
         this.callParent([me]);
 
