@@ -1,12 +1,11 @@
 Please see the wiki for documentation/references.
 
-- v0.1   - Sencha Touch 1.1 compatible version
-- v0.2.0 - Sencha Touch 2 PR2 compatible version
-- v0.2.1 - Sencha Touch 2 b1 compatible version
-- v0.2.2 - Sencha Touch 2 GA compatible version
-
 Latest Changes
 ---
+- v0.2.5
+    * Fixed issue with scrollable: false adding a scroll element. Changed to null to avoid issues and unnecessary dom elements.
+    * Tested with ST 2.3.0 and 2.3.1
+
 - v0.2.4
     * Fixed issue with onDrag see [issue #3](https://github.com/elmasse/Ext.ux.Cover/issues/3)
     * Tested with ST 2.2 and 2.2.1
